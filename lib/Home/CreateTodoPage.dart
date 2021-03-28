@@ -1,5 +1,6 @@
 import 'package:firebase_todo_app/CRUD.dart';
 import 'package:firebase_todo_app/Login/Auth.dart';
+import 'package:firebase_todo_app/Todo.dart';
 import 'package:flutter/material.dart';
 
 class CreateTodoPage extends StatefulWidget {
@@ -68,7 +69,12 @@ class _CreateTodoPageState extends State<CreateTodoPage> {
               ElevatedButton(
                 onPressed: () async {
                   print(auth.firebaseAuth.currentUser!.email);
-                  await createTodoDoc(auth.firebaseAuth.currentUser, nameController.text, detailController.text);
+                  Todo todo = Todo(
+                    title: nameController.text,
+                    description: detailController.text,
+                    createdTime: DateTime.now(),
+                  );
+                  await createTodoDoc(auth.firebaseAuth.currentUser, todo);
                   Navigator.pop(context);
                 },
                 child: Text('만들기'),

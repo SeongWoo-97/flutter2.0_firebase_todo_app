@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_todo_app/Todo.dart';
 import 'package:flutter/scheduler.dart';
 
 Future<void> createUserDoc(User? user) async {
@@ -21,22 +22,20 @@ Future<void> createUserDoc(User? user) async {
   }
 }
 
-// todo 클래스 만들기
-Future<void> createTodoDoc(User? user, String name, String detail) async {
+// updateTodo 메서드 수정하기
+Future<void> createTodoDoc(User? user, Todo todo) async {
   if (user != null) {
     FirebaseFirestore.instance
         .collection("users")
         .doc(user.uid)
         .collection('Todo_List')
-        .doc(name)
-        .set(
-      {
-        'name': name,
-        'detail': detail,
-      },
-    );
+        .doc()
+        .set(todo.toJson());
   }
+  print('createTodoDoc 완료');
 }
+
+// 테스트용
 Future<void> createTodoDoc2(User? user, String name, String detail) async {
   if (user != null) {
     FirebaseFirestore.instance
@@ -52,6 +51,7 @@ Future<void> createTodoDoc2(User? user, String name, String detail) async {
     );
   }
 }
+
 Future<void> deleteTodo(User? user, String name) async {
   FirebaseFirestore.instance
       .collection("users")

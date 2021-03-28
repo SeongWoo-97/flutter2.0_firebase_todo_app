@@ -2,9 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_todo_app/Home/CreateTodoPage.dart';
 import 'package:flutter/material.dart';
+
 class TodoField {
   static const createdTime = 'createdTime';
 }
+
 class HomePage extends StatefulWidget {
   final User? user;
 
@@ -35,7 +37,7 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: collection.snapshots(),
+        stream: collection.orderBy('createdTime', descending: false).snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return Text('Something went wrong');
@@ -51,7 +53,7 @@ class _HomePageState extends State<HomePage> {
             itemBuilder: (context, index) {
               print(index);
               return ListTile(
-                title: Text(snapshot.data!.docs[index]['name']),
+                title: Text(snapshot.data!.docs[index]['title']),
               );
             },
           );
