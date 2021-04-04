@@ -1,6 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_todo_app/CRUD.dart';
+import 'package:firebase_todo_app/Home/HomePage.dart';
 import 'package:firebase_todo_app/Home/TodoList.dart';
 import 'package:firebase_todo_app/Login/Auth.dart';
 import 'package:firebase_todo_app/Login/GoogleAuth2.dart';
@@ -300,10 +301,6 @@ class _LoginPageState extends State<LoginPage> {
   void GoHome(User? user) async {
     await createUserDoc(user);
     Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(
-            builder: (_) => HomePage(
-                  user: user,
-                )),
-        (route) => false);
+        MaterialPageRoute(builder: (_) => HomePage(user: user)), (route) => false);
   }
 }

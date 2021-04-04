@@ -1,31 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_todo_app/CRUD.dart';
 import 'package:firebase_todo_app/Home/CreateTodoPage.dart';
+import 'package:firebase_todo_app/Home/EditPage.dart';
 import 'package:flutter/material.dart';
 
-class TodoField {
-  static const createdTime = 'createdTime';
-}
-
-class HomePage extends StatefulWidget {
+class TodoList extends StatefulWidget {
   final User? user;
 
-  HomePage({this.user});
+  TodoList({this.user});
 
   @override
-  _HomePageState createState() => _HomePageState(user);
+  _TodoListState createState() => _TodoListState(user);
 }
 
-class _HomePageState extends State<HomePage> {
+class _TodoListState extends State<TodoList> {
   User? user;
 
-  _HomePageState(this.user);
-
-  @override
-  void initState() {
-    super.initState();
-    print(user!.email);
-  }
+  _TodoListState(this.user);
 
   @override
   Widget build(BuildContext context) {
@@ -43,17 +35,39 @@ class _HomePageState extends State<HomePage> {
             return Text('Something went wrong');
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Text("Loading");
+            return Center(
+                child: Text(
+              "Loading",
+              style: TextStyle(fontSize: 30),
+            ));
           }
-          return ListView.separated(
+          return ListView.builder(
             itemCount: snapshot.data!.docs.length,
-            separatorBuilder: (context, index) => Divider(
-              thickness: 1.5,
-            ),
             itemBuilder: (context, index) {
-              print(index);
-              return ListTile(
-                title: Text(snapshot.data!.docs[index]['title']),
+              return Card(
+                child: ListTile(
+                  title: Text(snapshot.data!.docs[index]['title']),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      OutlinedButton(
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (_) => EditTodoPage(snapshot.data!.docs[index]['id'])));
+                          },
+                          child: Icon(Icons.edit)),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      OutlinedButton(
+                          onPressed: () {
+                            deleteTodo(user, snapshot.data!.docs[index]['id']);
+                          },
+                          child: Icon(Icons.delete)),
+                    ],
+                  ),
+                ),
+                margin: EdgeInsets.fromLTRB(10, 15, 10, 5),
               );
             },
           );

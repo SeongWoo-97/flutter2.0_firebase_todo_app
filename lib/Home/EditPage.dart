@@ -3,12 +3,16 @@ import 'package:firebase_todo_app/Login/Auth.dart';
 import 'package:firebase_todo_app/Todo.dart';
 import 'package:flutter/material.dart';
 
-class CreateTodoPage extends StatefulWidget {
+class EditTodoPage extends StatefulWidget {
+  final id;
+
+  EditTodoPage(this.id);
+
   @override
-  _CreateTodoPageState createState() => _CreateTodoPageState();
+  _EditTodoPageState createState() => _EditTodoPageState();
 }
 
-class _CreateTodoPageState extends State<CreateTodoPage> {
+class _EditTodoPageState extends State<EditTodoPage> {
   final key = GlobalKey<FormState>();
 
   var nameController = TextEditingController();
@@ -20,7 +24,7 @@ class _CreateTodoPageState extends State<CreateTodoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('할일 만들기'),
+        title: Text('할일 수정하기'),
       ),
       body: Form(
         key: key,
@@ -68,16 +72,18 @@ class _CreateTodoPageState extends State<CreateTodoPage> {
               ),
               ElevatedButton(
                 onPressed: () async {
+                  // 생성일자 와 업데이트 일자를 나눌수도 있음
                   Todo todo = Todo(
                     title: nameController.text,
                     description: detailController.text,
                     createdTime: DateTime.now(),
                   );
-                  await createTodo(auth.firebaseAuth.currentUser, todo);
+                  await updateTodo(auth.firebaseAuth.currentUser, todo, widget.id);
+                  print('수정완료');
                   Navigator.pop(context);
                 },
-                child: Text('만들기'),
-              )
+                child: Text('수정하기'),
+              ),
             ],
           ),
         ),

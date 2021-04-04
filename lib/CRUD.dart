@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_todo_app/Todo.dart';
@@ -22,55 +24,29 @@ Future<void> createUserDoc(User? user) async {
   }
 }
 
-// updateTodo 메서드 수정하기
-Future<void> createTodoDoc(User? user, Todo todo) async {
+Future<void> createTodo(User? user, Todo todo) async {
   if (user != null) {
-    FirebaseFirestore.instance
-        .collection("users")
-        .doc(user.uid)
-        .collection('Todo_List')
-        .doc()
-        .set(todo.toJson());
-  }
-  print('createTodoDoc 완료');
-}
+    final docID =
+        FirebaseFirestore.instance.collection("users").doc(user.uid).collection("Todo_List").doc();
 
-// 테스트용
-Future<void> createTodoDoc2(User? user, String name, String detail) async {
-  if (user != null) {
-    FirebaseFirestore.instance
-        .collection("users")
-        .doc(user.uid)
-        .collection('Todo_List')
-        .doc(name)
-        .set(
-      {
-        'name': name,
-        'detail': detail,
-      },
-    );
+    todo.id = docID.id;
+
+    await docID.set(todo.toJson());
   }
 }
 
-Future<void> deleteTodo(User? user, String name) async {
-  FirebaseFirestore.instance
+Future<void> updateTodo(User? user, Todo todo, String id) async {
+  final docTodo =
+      FirebaseFirestore.instance.collection("users").doc(user!.uid).collection('Todo_List').doc(id);
+  todo.id = docTodo.id;
+  await docTodo.update(todo.toJson());
+}
+
+Future<void> deleteTodo(User? user, String id) async {
+  await FirebaseFirestore.instance
       .collection("users")
       .doc(user!.uid)
       .collection("Todo_List")
-      .doc(name)
+      .doc(id)
       .delete();
-}
-
-Future<void> updateTodo(User? user, String name, String detail) async {
-  FirebaseFirestore.instance
-      .collection("users")
-      .doc(user!.uid)
-      .collection("Todo_List")
-      .doc(name)
-      .update(
-    {
-      'name': name,
-      'detail': detail,
-    },
-  );
 }

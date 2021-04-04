@@ -54,7 +54,7 @@ class Auth {
     return true;
   }
 
-  Future<void> signOut() async {
+   Future<void> signOut() async {
     return firebaseAuth.signOut();
   }
 }

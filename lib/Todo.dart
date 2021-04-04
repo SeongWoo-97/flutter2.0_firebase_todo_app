@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Todo {
+  String id = "";
   String title = "";
   String description = "";
   DateTime createdTime = DateTime.now().toUtc();
@@ -11,6 +12,7 @@ class Todo {
     required this.description,
     required this.createdTime,
     this.isDone = false,
+    id,
   });
 
   // Json -> Todo
@@ -18,6 +20,7 @@ class Todo {
         title: json['title'],
         description: json['description'],
         createdTime: toDateTime(json['createdTime']),
+        id: json['id'],
         isDone: json['isDone'],
       );
 
@@ -27,6 +30,7 @@ class Todo {
         'description': description,
         'createdTime': createdTime,
         'isDone': isDone,
+        'id': id,
       };
 
   static DateTime toDateTime(Timestamp value) {
