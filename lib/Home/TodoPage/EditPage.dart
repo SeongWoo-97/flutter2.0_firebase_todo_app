@@ -1,6 +1,6 @@
-import 'file:///D:/StudyFolder2/firebase_todo_app/lib/utils/CRUD.dart';
 import 'file:///D:/StudyFolder2/firebase_todo_app/lib/utils/Todo.dart';
 import 'package:firebase_todo_app/Sign_In/Auth/Auth.dart';
+import 'package:firebase_todo_app/utils/CRUD.dart';
 import 'package:flutter/material.dart';
 
 class EditTodoPage extends StatefulWidget {
@@ -72,7 +72,6 @@ class _EditTodoPageState extends State<EditTodoPage> {
               ),
               ElevatedButton(
                 onPressed: () async {
-                  // 생성일자 와 업데이트 일자를 나눌수도 있음
                   Todo todo = Todo(
                     title: nameController.text,
                     description: detailController.text,

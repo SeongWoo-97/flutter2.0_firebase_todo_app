@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'file:///D:/StudyFolder2/firebase_todo_app/lib/utils/CRUD.dart';
-import 'file:///D:/StudyFolder2/firebase_todo_app/lib/Home/TodoPage/CreateTodoPage.dart';
-import 'file:///D:/StudyFolder2/firebase_todo_app/lib/Home/TodoPage/EditPage.dart';
+import 'package:firebase_todo_app/Home/TodoPage/CreateTodoPage.dart';
+import 'package:firebase_todo_app/Home/TodoPage/EditPage.dart';
+import 'package:firebase_todo_app/utils/CRUD.dart';
+
 import 'package:flutter/material.dart';
 
 class TodoList extends StatefulWidget {

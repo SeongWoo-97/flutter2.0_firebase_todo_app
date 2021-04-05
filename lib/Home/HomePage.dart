@@ -22,38 +22,54 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     _widgetOptions = [
       TodoList(user: widget.user),
-      SettingPage(user : widget.user),
+      SettingPage(user: widget.user),
     ];
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: <BottomNavigationBarItem>[
-          // title -> label
-          BottomNavigationBarItem(icon: Icon(Icons.note_add_outlined), label: '작업관리'),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: '설정'),
-        ],
-        onTap: (int index) {
-          // 매번 해당페이지의 build 를 불러와야하기 때문에
-          setState(() {
-            _index = index;
-          });
-        },
-        currentIndex: _index,
-      ),
-      body: Center(
-        child: _widgetOptions.elementAt(_index),
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          items: <BottomNavigationBarItem>[
+            // title -> label
+            BottomNavigationBarItem(icon: Icon(Icons.note_add_outlined), label: '작업관리'),
+            BottomNavigationBarItem(icon: Icon(Icons.settings), label: '설정'),
+          ],
+          onTap: (int index) {
+            setState(() {
+              _index = index;
+            });
+          },
+          currentIndex: _index,
+        ),
+        body: Center(
+          child: _widgetOptions.elementAt(_index),
+        ),
       ),
     );
   }
-}
 
-class TestPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
+  Future<bool> _onWillPop() async {
+    return (await showDialog(
+      context: context,
+      builder: (context) =>
+          AlertDialog(
+            title: Text('종료하시겠습니까?'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: Text('네'),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: Text('아니요'),
+              ),
+            ],
+          ),
+    )) ??
+        false;
   }
 }

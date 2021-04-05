@@ -6,23 +6,9 @@ class SignUpPage extends StatefulWidget {
   _SignUpPageState createState() => _SignUpPageState();
 }
 
-class ValidationMixin {
-  String? validateEmail(String value) {
-    if (!value.contains('@')) {
-      return 'Please enter a valid email';
-    }
-    return null;
-  }
 
-  String? validatePassword(String value) {
-    if (value.length < 4) {
-      return 'Enter 4 more char';
-    }
-    return null;
-  }
-}
 
-class _SignUpPageState extends State<SignUpPage> with ValidationMixin{
+class _SignUpPageState extends State<SignUpPage> {
   final globalKey = GlobalKey<FormState>();
   var id = TextEditingController();
   var pw1 = TextEditingController();
@@ -38,6 +24,7 @@ class _SignUpPageState extends State<SignUpPage> with ValidationMixin{
     pw2.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -132,7 +119,6 @@ class _SignUpPageState extends State<SignUpPage> with ValidationMixin{
                 child: ElevatedButton(
                   onPressed: () {
                     auth.signUp(id.text.toString(), pw2.text.toString());
-                    // showDialog 창
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
@@ -144,11 +130,14 @@ class _SignUpPageState extends State<SignUpPage> with ValidationMixin{
                                 size: 25,
                                 color: Colors.green,
                               ),
-                              SizedBox(width: 10,),
+                              SizedBox(
+                                width: 10,
+                              ),
                               Text('완료'),
                             ],
                           ),
-                          content: Text('회원가입이 정상적으로 처리되었습니다. \n가입하신 이메일에 접속하여 이메일 인증을 받아주시길 바랍니다.'),
+                          content:
+                              Text('회원가입이 정상적으로 처리되었습니다. \n가입하신 이메일에 접속하여 이메일 인증을 받아주시길 바랍니다.'),
                           actions: [
                             TextButton(
                               child: Text('확인'),

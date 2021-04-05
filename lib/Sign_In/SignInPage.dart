@@ -13,7 +13,7 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
-  final globalKey = GlobalKey<FormState>();
+  final key = GlobalKey<FormState>();
   var id = TextEditingController();
   var pw = TextEditingController();
   bool _showPW = true;
@@ -24,8 +24,10 @@ class _SignInPageState extends State<SignInPage> {
   String? errorText;
 
   @override
-  void initState() {
-    super.initState();
+  void dispose() {
+    id.dispose();
+    pw.dispose();
+    super.dispose();
   }
 
   @override
@@ -45,7 +47,7 @@ class _SignInPageState extends State<SignInPage> {
               ),
             ),
             Form(
-              key: globalKey,
+              key: key,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -116,34 +118,32 @@ class _SignInPageState extends State<SignInPage> {
                 width: width * .8,
                 child: ElevatedButton(
                   onPressed: () async {
-                    if (globalKey.currentState!.validate()) {
+                    if (key.currentState!.validate()) {
                       final result = await auth.signIn(id.text.toString(), pw.text.toString());
                       if (result) {
                         if (auth.firebaseAuth.currentUser!.emailVerified) {
-                          print('이메일 인증');
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
                                 title: Row(
                                   children: [
-                                    Icon(
-                                      Icons.check,
-                                      size: 25,
-                                      color: Colors.green,
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text('완료'),
+                                    Icon(Icons.check, size: 25, color: Colors.green),
+                                    SizedBox(width: 10),
+                                    Text('완료')
                                   ],
                                 ),
                                 content: Text('로그인 성공'),
                                 actions: [
                                   TextButton(
                                     child: Text('확인'),
-                                    onPressed: () {
-                                      GoHome(auth.firebaseAuth.currentUser);
+                                    onPressed: () async {
+                                      await createUserDoc(auth.firebaseAuth.currentUser);
+                                      Navigator.of(context).pushAndRemoveUntil(
+                                          MaterialPageRoute(
+                                              builder: (_) =>
+                                                  HomePage(user: auth.firebaseAuth.currentUser)),
+                                          (route) => false);
                                       Navigator.pop(context);
                                     },
                                   )
@@ -158,14 +158,9 @@ class _SignInPageState extends State<SignInPage> {
                               return AlertDialog(
                                 title: Row(
                                   children: [
-                                    Icon(
-                                      Icons.announcement_outlined,
-                                      size: 25,
-                                      color: Colors.green,
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
+                                    Icon(Icons.announcement_outlined,
+                                        size: 25, color: Colors.green),
+                                    SizedBox(width: 10),
                                     Text('이메일 인증필요'),
                                   ],
                                 ),
@@ -211,8 +206,7 @@ class _SignInPageState extends State<SignInPage> {
                     style: TextStyle(color: Colors.blueAccent),
                   ),
                   onPressed: () {
-                    Navigator.push(
-                        context, MaterialPageRoute(builder: (context) => SignUpPage()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpPage()));
                   },
                 )
               ],
@@ -264,7 +258,9 @@ class _SignInPageState extends State<SignInPage> {
               ),
               onPressed: () async {
                 User? user = await Authentication.signInWithGoogle(context: context);
-                GoHome(user);
+                await createUserDoc(user);
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (_) => HomePage(user: user)), (route) => false);
               },
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
@@ -295,11 +291,5 @@ class _SignInPageState extends State<SignInPage> {
         ),
       ),
     );
-  }
-
-  void GoHome(User? user) async {
-    await createUserDoc(user);
-    Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (_) => HomePage(user: user)), (route) => false);
   }
 }
