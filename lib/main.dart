@@ -1,5 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_todo_app/Login/LoginPage.dart';
+import 'package:firebase_todo_app/Sign_In/LoginPage.dart';
 import 'package:flutter/material.dart';
 
 Future<void> main() async {
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginPage(),
+      home: SignInPage(),
       debugShowCheckedModeBanner: false,
     );
   }

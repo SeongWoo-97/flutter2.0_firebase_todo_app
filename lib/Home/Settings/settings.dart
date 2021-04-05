@@ -1,9 +1,15 @@
-import 'package:firebase_todo_app/Login/Auth.dart';
-import 'package:firebase_todo_app/Login/LoginPage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_todo_app/Sign_In/Auth/Auth.dart';
+import 'package:firebase_todo_app/Sign_In/LoginPage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class SettingPage extends StatefulWidget {
+  final User? user;
+
+  SettingPage({this.user});
+
   @override
   _SettingPageState createState() => _SettingPageState();
 }
@@ -14,6 +20,7 @@ class _SettingPageState extends State<SettingPage> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.user!.photoURL);
     return Scaffold(
       appBar: AppBar(
         title: Text('설정'),
@@ -30,16 +37,17 @@ class _SettingPageState extends State<SettingPage> {
                     padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
                     child: CircleAvatar(
                       backgroundImage:
-                          NetworkImage('https://www.woolha.com/media/2020/03/eevee.png'),
+                          NetworkImage(widget.user!.photoURL!),
                       minRadius: 30,
                     ),
                   ),
+                  SizedBox(width: 5),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('NickName : 성우'),
+                      Text('${widget.user!.displayName}',style: TextStyle(fontWeight: FontWeight.bold),),
                       Text(
-                        'Email : oce_ps@naver.com',
+                        '${widget.user!.email}',
                         style: TextStyle(color: Colors.grey),
                       ),
                     ],
@@ -63,31 +71,6 @@ class _SettingPageState extends State<SettingPage> {
                   title: Row(
                     children: [
                       Icon(
-                        Icons.wb_sunny_outlined,
-                        color: Colors.grey,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text('다크모드')
-                    ],
-                  ),
-                  trailing: Switch(
-                    value: isSwitched,
-                    onChanged: (value) {
-                      setState(() {
-                        isSwitched = value;
-                        print(value);
-                      });
-                    },
-                    activeColor: Colors.blueGrey,
-
-                  ),
-                ),
-                ListTile(
-                  title: Row(
-                    children: [
-                      Icon(
                         Icons.logout,
                         color: Colors.blueAccent,
                       ),
@@ -102,8 +85,10 @@ class _SettingPageState extends State<SettingPage> {
                     size: 20,
                   ),
                   onTap: () async {
-                    await auth.signOut(); // 구글 로그아웃 추가
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+                    // await auth.signOut(); // 구글 로그아웃 추가
+                    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+                    await firebaseAuth.signOut();
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => SignInPage()));
                   },
                 )
               ],

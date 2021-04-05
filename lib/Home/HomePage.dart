@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_todo_app/Home/TodoList.dart';
-import 'package:firebase_todo_app/Home/settings.dart';
+import 'file:///D:/StudyFolder2/firebase_todo_app/lib/Home/TodoPage/TodoList.dart';
+import 'file:///D:/StudyFolder2/firebase_todo_app/lib/Home/Settings/settings.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     _widgetOptions = [
       TodoList(user: widget.user),
-      SettingPage(),
+      SettingPage(user : widget.user),
     ];
   }
 

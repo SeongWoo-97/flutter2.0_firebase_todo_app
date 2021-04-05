@@ -1,19 +1,18 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_todo_app/CRUD.dart';
+import 'file:///D:/StudyFolder2/firebase_todo_app/lib/utils/CRUD.dart';
 import 'package:firebase_todo_app/Home/HomePage.dart';
-import 'package:firebase_todo_app/Home/TodoList.dart';
-import 'package:firebase_todo_app/Login/Auth.dart';
-import 'package:firebase_todo_app/Login/GoogleAuth2.dart';
-import 'package:firebase_todo_app/Reigster/RegisterPage.dart';
+import 'package:firebase_todo_app/Sign_In/Auth/Auth.dart';
+import 'package:firebase_todo_app/Sign_In/Auth/GoogleAuth.dart';
+import 'package:firebase_todo_app/Sign_Up/SignUpPage.dart';
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatefulWidget {
+class SignInPage extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _SignInPageState createState() => _SignInPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _SignInPageState extends State<SignInPage> {
   final globalKey = GlobalKey<FormState>();
   var id = TextEditingController();
   var pw = TextEditingController();
@@ -213,7 +212,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   onPressed: () {
                     Navigator.push(
-                        context, MaterialPageRoute(builder: (context) => RegisterPage()));
+                        context, MaterialPageRoute(builder: (context) => SignUpPage()));
                   },
                 )
               ],

@@ -1,9 +1,9 @@
-import 'package:firebase_todo_app/Login/Auth.dart';
+import 'package:firebase_todo_app/Sign_In/Auth/Auth.dart';
 import 'package:flutter/material.dart';
 
-class RegisterPage extends StatefulWidget {
+class SignUpPage extends StatefulWidget {
   @override
-  _RegisterPageState createState() => _RegisterPageState();
+  _SignUpPageState createState() => _SignUpPageState();
 }
 
 class ValidationMixin {
@@ -22,7 +22,7 @@ class ValidationMixin {
   }
 }
 
-class _RegisterPageState extends State<RegisterPage> with ValidationMixin{
+class _SignUpPageState extends State<SignUpPage> with ValidationMixin{
   final globalKey = GlobalKey<FormState>();
   var id = TextEditingController();
   var pw1 = TextEditingController();
@@ -31,6 +31,13 @@ class _RegisterPageState extends State<RegisterPage> with ValidationMixin{
   bool _showPW2 = true;
   Auth auth = new Auth();
 
+  @override
+  void dispose() {
+    id.dispose();
+    pw1.dispose();
+    pw2.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;

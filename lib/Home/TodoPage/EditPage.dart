@@ -1,6 +1,6 @@
-import 'package:firebase_todo_app/CRUD.dart';
-import 'package:firebase_todo_app/Login/Auth.dart';
-import 'package:firebase_todo_app/Todo.dart';
+import 'file:///D:/StudyFolder2/firebase_todo_app/lib/utils/CRUD.dart';
+import 'file:///D:/StudyFolder2/firebase_todo_app/lib/utils/Todo.dart';
+import 'package:firebase_todo_app/Sign_In/Auth/Auth.dart';
 import 'package:flutter/material.dart';
 
 class EditTodoPage extends StatefulWidget {

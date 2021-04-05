@@ -2,8 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_todo_app/Todo.dart';
-import 'package:flutter/scheduler.dart';
+import 'file:///D:/StudyFolder2/firebase_todo_app/lib/utils/Todo.dart';
 
 Future<void> createUserDoc(User? user) async {
   if (user != null) {
