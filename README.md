@@ -1,16 +1,10 @@
 # firebase_todo_app
 
-A new Flutter application.
+버전 : Flutter 2.0
 
-## Getting Started
+제작목적 : 2.0 버전 사용 과 Firebase 이메일 , 구글로그인 활용 그리고 FireStore CRUD 활용 목적
 
-This project is a starting point for a Flutter application.
+![Screenshot_2021-04-11_182118](https://user-images.githubusercontent.com/67625692/114307498-dcc0a600-9b1a-11eb-96b8-7f25616dcb40.png)
+![Screenshot_2021-04-11_182201](https://user-images.githubusercontent.com/67625692/114307500-dfbb9680-9b1a-11eb-9e88-62017d5638bf.png)
+![Screenshot_2021-04-11_182214](https://user-images.githubusercontent.com/67625692/114307504-e1855a00-9b1a-11eb-9386-cfb7eb103201.png)
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
