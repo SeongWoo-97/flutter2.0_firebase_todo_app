@@ -1,4 +1,5 @@
 import 'file:///D:/StudyFolder2/firebase_todo_app/lib/utils/Todo.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_todo_app/Sign_In/Auth/Auth.dart';
 import 'package:firebase_todo_app/utils/CRUD.dart';
 import 'package:flutter/material.dart';
@@ -75,7 +76,7 @@ class _EditTodoPageState extends State<EditTodoPage> {
                   Todo todo = Todo(
                     title: nameController.text,
                     description: detailController.text,
-                    createdTime: DateTime.now(),
+                    createdTime: Timestamp.now().toDate(),
                   );
                   await updateTodo(auth.firebaseAuth.currentUser, todo, widget.id);
                   print('수정완료');

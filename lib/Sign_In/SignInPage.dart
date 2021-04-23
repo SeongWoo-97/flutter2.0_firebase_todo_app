@@ -13,6 +13,7 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
+  // 이메일 로그인에 필요한 변수들 선언
   final key = GlobalKey<FormState>();
   var id = TextEditingController();
   var pw = TextEditingController();
@@ -21,8 +22,9 @@ class _SignInPageState extends State<SignInPage> {
   Auth auth = new Auth();
   String email = "";
   String password = "";
-  String? errorText;
+  String? errorText; // errorText = ""; 사용하게 되면 값이 생기기 때문에 TextFormField 에 에러표시 뜸
 
+  // TextEditingController 를 사용후 리소스 반환을 위해 dispose()
   @override
   void dispose() {
     id.dispose();
@@ -118,6 +120,8 @@ class _SignInPageState extends State<SignInPage> {
                 width: width * .8,
                 child: ElevatedButton(
                   onPressed: () async {
+                    // 각 form 의 validator 를 실행
+                    // 질문 : if 문을 여러개 겹치는 방법말고 삼항연산자 를 사용하는게 맞습니까?
                     if (key.currentState!.validate()) {
                       final result = await auth.signIn(id.text.toString(), pw.text.toString());
                       if (result) {
@@ -138,6 +142,10 @@ class _SignInPageState extends State<SignInPage> {
                                   TextButton(
                                     child: Text('확인'),
                                     onPressed: () async {
+                                      // 유저의 정보를 fireStore 저장
+                                      // 1. 로그인을 할때마다 새로운 유저의 정보를 덮어씌울수가 있음
+                                      // 2. 유저의 정보가 바뀌지 않는 정보면 새로 갱신할 필요가 없기 때문에 id,pw,emailVerified 만 확인하면 될까요?
+                                      // 2-1 . 어떤 서비스인지에 따라 매번 덮어씌우는게 맞는지 , 바뀌는정보만 갱신하는게 맞는지?
                                       await createUserDoc(auth.firebaseAuth.currentUser);
                                       Navigator.of(context).pushAndRemoveUntil(
                                           MaterialPageRoute(
@@ -259,6 +267,7 @@ class _SignInPageState extends State<SignInPage> {
               onPressed: () async {
                 User? user = await Authentication.signInWithGoogle(context: context);
                 await createUserDoc(user);
+                // (route) => false; -
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(builder: (_) => HomePage(user: user)), (route) => false);
               },

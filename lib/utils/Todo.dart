@@ -4,7 +4,7 @@ class Todo {
   String id = "";
   String title = "";
   String description = "";
-  DateTime createdTime = DateTime.now().toUtc();
+  DateTime createdTime = Timestamp.now().toDate();
   bool isDone = false;
 
   Todo({

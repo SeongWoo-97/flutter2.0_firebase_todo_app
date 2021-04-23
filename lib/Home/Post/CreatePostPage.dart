@@ -1,22 +1,26 @@
 import 'dart:math';
 
-import 'file:///D:/StudyFolder2/firebase_todo_app/lib/utils/Todo.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_todo_app/Sign_In/Auth/Auth.dart';
 import 'package:firebase_todo_app/utils/CRUD.dart';
+import 'package:firebase_todo_app/utils/Post.dart';
 import 'package:flutter/material.dart';
 
-class CreateTodoPage extends StatefulWidget {
+class CreatePostPage extends StatefulWidget {
+  final User? user;
+
+  CreatePostPage({this.user});
+
   @override
-  _CreateTodoPageState createState() => _CreateTodoPageState();
+  _CreatePostPageState createState() => _CreatePostPageState();
 }
 
-class _CreateTodoPageState extends State<CreateTodoPage> {
+class _CreatePostPageState extends State<CreatePostPage> {
   final key = GlobalKey<FormState>();
-
   var nameController = TextEditingController();
+  var contentsController = TextEditingController();
 
-  var detailController = TextEditingController();
   Auth auth = Auth();
   Random random = Random();
 
@@ -52,10 +56,10 @@ class _CreateTodoPageState extends State<CreateTodoPage> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
                 child: TextFormField(
-                  controller: detailController,
+                  controller: contentsController,
                   decoration: InputDecoration(
-                    labelText: '상세내용',
-                    hintText: '상세내용',
+                    labelText: '내용',
+                    hintText: '내용',
                     labelStyle: TextStyle(fontSize: 15),
                     hintStyle: TextStyle(fontSize: 15, color: Colors.grey),
                     alignLabelWithHint: true,
@@ -72,12 +76,13 @@ class _CreateTodoPageState extends State<CreateTodoPage> {
               ),
               ElevatedButton(
                 onPressed: () async {
-                  Todo todo = Todo(
-                    title: nameController.text,
-                    description: detailController.text,
+                  Post post = Post(
                     createdTime: Timestamp.now().toDate(),
+                    writerUid: auth.firebaseAuth.currentUser!.uid,
+                    title: nameController.text,
+                    contents: contentsController.text,
                   );
-                  await createTodo(auth.firebaseAuth.currentUser, todo);
+                  await createPost(auth.firebaseAuth.currentUser, post);
                   Navigator.pop(context);
                 },
                 child: Text('만들기'),
